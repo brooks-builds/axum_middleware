@@ -1,9 +1,11 @@
-use std::net::SocketAddr;
+mod app_state;
+mod router;
 
 use eyre::Result;
 use router::create_router;
+use std::net::SocketAddr;
 
-mod router;
+use crate::app_state::AppState;
 
 pub struct App {
     address: [u8; 4],
@@ -21,7 +23,11 @@ impl App {
 
     pub async fn run(&self) -> Result<()> {
         let address = SocketAddr::from((self.address, self.port));
-        let router = create_router();
+        let state = AppState {
+            address: self.address,
+            port: self.port,
+        };
+        let router = create_router(state);
 
         tracing::info!("Server running on port {}", self.port);
 

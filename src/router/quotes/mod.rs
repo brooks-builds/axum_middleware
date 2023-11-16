@@ -3,6 +3,8 @@ mod create;
 use axum::{routing::post, Router};
 use create::create_quote;
 
-pub fn create_quotes_router() -> Router {
+use crate::app_state::AppState;
+
+pub fn create_quotes_router() -> Router<AppState> {
     Router::new().route("/", post(create_quote))
 }
