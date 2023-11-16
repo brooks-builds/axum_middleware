@@ -23,6 +23,10 @@ pub async fn log_state<B>(
 
     *message_extension = "hello from log_state";
 
+    request
+        .extensions_mut()
+        .insert(String::from("I am a new extension"));
+
     let response = next.run(request).await;
 
     response
